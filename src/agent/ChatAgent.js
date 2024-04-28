@@ -1,7 +1,8 @@
 import createChatDelegator from "./ChatDelegator";
+import { ofRandom } from "./Util";
 
 const createChatAgent = () => {
-    const CS571_WITAI_ACCESS_TOKEN = ""; // Put your CLIENT access token here.
+    const CS571_WITAI_ACCESS_TOKEN = "YKR3CC2JMLS4XV6PPIDS6ZCJ5PLMGQCI"; // Put your CLIENT access token here.
 
     const delegator = createChatDelegator();
 
@@ -85,22 +86,46 @@ const createChatAgent = () => {
     }
 
     const handleGetHelp = async () => {
-        return "I should try to help...";
+        const responses =
+        [
+            "give me a list of chatrooms",
+            "register for an account",
+            "what chatrooms are there",
+            "get latest post",
+            "login"
+        ]
+        return `Try asking for '${ofRandom(responses)}', or ask for more help!`;
     }
 
     const handleGetChatrooms = async () => {
-        return "I should respond with a list of chatrooms..."
+        let chatroomStr = chatrooms.join(", ")
+        return `Of course, there are ${chatrooms.length} chatrooms: ${chatroomStr}.`
     }
 
     const handleGetMessages = async (data) => {
-        return "I should respond with a list of messages..."
+        const hasSpecifiedNumber = data.entities["wit$number:number"] ? true : false;
+        const numPosts = hasSpecifiedNumber ? data.entities["wit$number:number"][0].value : 1;
+
+        const hasSpecifiedChatroom = data.entities["get_messages:get_messages"] ? true : false;
+        const chatroom = hasSpecifiedChatroom ? data.entities["get_messages:get_messages"][0].value : "";
+
+        const resp = await fetch(`https://cs571.org/api/s24/hw11/messages?chatroom=${chatroom}&num=${numPosts}`, {
+            method: "GET",
+            headers: {
+                "X-CS571-ID": "bid_8502fd1eee835ac0b7b95444697d92bcf26a1d3f6f606a08c9430176cb48a07a"
+            }
+        });
+        const posts = await resp.json()
+        return posts.messages.map(p => `In ${p.chatroom}, ${p.poster} created a post titled '${p.poster}' saying '${p.content}'`);
     }
 
     const handleLogin = async () => {
+        console.log("1");
         return await delegator.beginDelegation("LOGIN");
     }
 
     const handleRegister = async () => {
+        console.log("2");
         return await delegator.beginDelegation("REGISTER");
     }
 
