@@ -8,7 +8,7 @@ const createRegisterSubAgent = (end) => {
     const handleInitialize = async (promptData) => {
         console.log("4");
         if (await isLoggedIn()) {
-            return "You already have an account and are logged in! Logout to register a different account."
+            return end("You already have an account and are logged in! Logout to register a different account.");
         } else {
             stage = "FOLLOWUP_USERNAME";
             return ofRandom([
