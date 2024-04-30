@@ -116,7 +116,7 @@ const createChatAgent = () => {
             }
         });
         const posts = await resp.json()
-        return posts.messages.map(p => `In ${p.chatroom}, ${p.poster} created a post titled '${p.poster}' saying '${p.content}'`);
+        return posts.messages.map(p => `In ${p.chatroom}, ${p.poster} created a post titled '${p.title}' saying '${p.content}'`);
     }
 
     const handleLogin = async () => {
@@ -130,7 +130,7 @@ const createChatAgent = () => {
     }
 
     const handleCreateMessage = async (data) => {
-        return await delegator.beginDelegation("CREATE");
+        return await delegator.beginDelegation("CREATE", data);
     }
 
     const handleLogout = async () => {

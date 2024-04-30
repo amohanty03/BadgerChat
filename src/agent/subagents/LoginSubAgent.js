@@ -7,7 +7,7 @@ const createLoginSubAgent = (end) => {
 
     const handleInitialize = async (promptData) => {
         if (await isLoggedIn()) {
-            return "You are already logged in! Logout to sign in with a different account."
+            return end("You are already logged in! Logout to sign in with a different account.");
         } else {
             stage = "FOLLOWUP_USERNAME";
             return ofRandom([
