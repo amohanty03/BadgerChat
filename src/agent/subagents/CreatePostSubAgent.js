@@ -1,4 +1,5 @@
 import { isLoggedIn, ofRandom } from "../Util";
+import AIEmoteType from "../../components/chat/messages/AIEmoteType";
 
 const createPostSubAgent = (end) => {
 
@@ -75,7 +76,7 @@ const createPostSubAgent = (end) => {
                     "Your post has been posted!",
                     "Congrats, your post has been posted!"
                 ]),
-                emote: 'bucki_success.png'
+                emote: AIEmoteType.SUCCESS
             });
         } else {
             return end(ofRandom([

@@ -1,4 +1,5 @@
 import { isLoggedIn, ofRandom } from "../Util";
+import AIEmoteType from "../../components/chat/messages/AIEmoteType";
 
 const createRegisterSubAgent = (end) => {
 
@@ -79,7 +80,7 @@ const createRegisterSubAgent = (end) => {
                         "Successfully registered!",
                         "Success! You have been registered and logged in."
                     ]),
-                    emote: 'bucki_success.png'
+                    emote: AIEmoteType.SUCCESS
                 });
             } else {
                 return end({
@@ -87,7 +88,7 @@ const createRegisterSubAgent = (end) => {
                         "Sorry, something went wrong! You used an existing username!",
                         "Sorry, contact administrator. You used an exisitng username!"
                     ]),
-                    emote: 'bucki_error.png'
+                    emote: AIEmoteType.ERROR
                 });
             }      
         }
