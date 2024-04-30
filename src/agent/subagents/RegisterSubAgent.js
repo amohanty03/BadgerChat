@@ -31,20 +31,26 @@ const createRegisterSubAgent = (end) => {
         console.log("6");
         username = prompt;
         stage = "FOLLOWUP_PASSWORD";
-        return ofRandom([
-            "Great, and what is your password preference?",
-            "Thanks, what password would you like?"
-        ])
+        return {
+            msg: ofRandom([
+                "Great, and what is your password preference?",
+                "Thanks, what password would you like?"
+            ]),
+            nextIsSensitive: true  
+        };
     }
 
     const handleFollowupPassword = async (prompt) => {
         console.log("7");
         password = prompt;
         stage = "FOLLOWUP_CONFIRMPASS";
-        return ofRandom([
-            "Lastly, confirm your password.",
-            "Thanks, please confirm your password once again."
-        ])
+        return {
+            msg: ofRandom([
+                "Lastly, confirm your password.",
+                "Thanks, please confirm your password once again."
+            ]),
+            nextIsSensitive: true  
+        };
     }
 
     const handleFollowupConfirmPassword = async (prompt) => {
@@ -68,15 +74,21 @@ const createRegisterSubAgent = (end) => {
             })
             
             if (resp.status === 200) {
-                return end(ofRandom([
-                    "Successfully registered!",
-                    "Success! You have been registered and logged in."
-                ]))
+                return end({
+                    msg: ofRandom([
+                        "Successfully registered!",
+                        "Success! You have been registered and logged in."
+                    ]),
+                    emote: 'bucki_success.png'
+                });
             } else {
-                return end(ofRandom([
-                    "Sorry, something went wrong! You used an existing username!",
-                    "Sorry, contact administrator. You used an exisitng username!",
-                ]))
+                return end({
+                    msg: ofRandom([
+                        "Sorry, something went wrong! You used an existing username!",
+                        "Sorry, contact administrator. You used an exisitng username!"
+                    ]),
+                    emote: 'bucki_error.png'
+                });
             }      
         }
     }

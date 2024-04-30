@@ -1,4 +1,5 @@
 import { isLoggedIn, ofRandom } from "../Util";
+import AIEmoteType from "../../components/chat/messages/AIEmoteType";
 
 const createLoginSubAgent = (end) => {
 
@@ -27,10 +28,13 @@ const createLoginSubAgent = (end) => {
     const handleFollowupUsername = async (prompt) => {
         username = prompt;
         stage = "FOLLOWUP_PASSWORD";
-        return ofRandom([
-            "Great, and what is your password?",
-            "Thanks, and what is your password?"
-        ])
+        return {
+            msg: ofRandom([
+                "Great, and what is your password?",
+                "Thanks, and what is your password?"
+            ]),
+            nextIsSensitive: true 
+        };
     }
 
     const handleFollowupPassword = async (prompt) => {
@@ -49,15 +53,21 @@ const createLoginSubAgent = (end) => {
         })
         
         if (resp.status === 200) {
-            return end(ofRandom([
-                "Successfully logged in!",
-                "Success! You have been logged in."
-            ]))
+            return end({
+                msg: ofRandom([
+                    "Successfully logged in!",
+                    "Success! You have been logged in."
+                ]),
+                emote: AIEmoteType.SUCCESS
+            });
         } else {
-            return end(ofRandom([
-                "Sorry, that username and password is incorrect.",
-                "Sorry, your username or password is incorrect.",
-            ]))
+            return end({
+                msg: ofRandom([
+                    "Sorry, that username and password is incorrect.",
+                    "Sorry, your username or password is incorrect."
+                ]),
+                emote: AIEmoteType.ERROR
+            });
         }      
     }
 

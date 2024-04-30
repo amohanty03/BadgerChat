@@ -70,10 +70,13 @@ const createPostSubAgent = (end) => {
                     content: content
                 })
             })
-            return end(ofRandom([
-                "Your post has been posted!",
-                "Congrats, your post has been posted!"
-            ]));
+            return end({
+                msg: ofRandom([
+                    "Your post has been posted!",
+                    "Congrats, your post has been posted!"
+                ]),
+                emote: 'bucki_success.png'
+            });
         } else {
             return end(ofRandom([
                 "No worries, if you want to create a post in the future, just ask!",
